@@ -1,0 +1,9 @@
+@import "1-settings/index";
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+.example-container > * {
+    width: 100%;
+}

@@ -1,0 +1,39 @@
+<h2 mat-dialog-title *ngIf="!userId">Agregar usuario</h2>
+<h2 mat-dialog-title *ngIf="userId">Editar usuario</h2>
+<form [formGroup]="userFG" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="mat-typography">
+        <div class="example-container">
+            <mat-form-field>
+                <input matInput placeholder="Nombres" formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Apellidos" formControlName="lastName">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Correo" formControlName="email" name="userEmail">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="password" placeholder="Contraseña" formControlName="password" name="userPassword">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Rol" formControlName="role">
+                    <mat-option value="0">Administrador</mat-option>
+                    <mat-option value="1">Propietario</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="userFG.value.role == 1">
+                <mat-select placeholder="Edificio" formControlName="buildingId">
+                    <mat-option *ngFor="let building of buildings" [value]="building.id">{{building.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="userFG.value.role == 1">
+                <input matInput placeholder="N° vivienda" formControlName="houseNumber">
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end" style="text-align: right;">
+        <a *ngIf="userId" mat-button routerLink="/users">Cancelar</a>
+        <a *ngIf="!userId" mat-button mat-dialog-close>Cancelar</a>
+        <button type="submit" mat-button [mat-dialog-close]="true">Agregar</button>
+    </mat-dialog-actions>
+</form>

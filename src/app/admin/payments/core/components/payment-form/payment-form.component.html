@@ -1,0 +1,35 @@
+<h2 mat-dialog-title *ngIf="!paymentId">Agregar pago</h2>
+<h2 mat-dialog-title *ngIf="paymentId">Editar pago</h2>
+<form [formGroup]="paymentFG" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="mat-typography">
+        <div class="example-container">
+            <mat-form-field>
+                <mat-select placeholder="Usuario" formControlName="userId">
+                    <mat-option value="1">Diana Navarro</mat-option>
+                    <mat-option value="2">Jessica Liao</mat-option>
+                    <mat-option value="2">Paola Liao</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Cuenta" formControlName="billId">
+                    <mat-option value="1">Agua Marzo 2019</mat-option>
+                    <mat-option value="2">Luz Marzo 2019</mat-option>
+                    <mat-option value="3">Servicios Marzo 2019</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Monto" formControlName="amount">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Fecha de pago" formControlName="paymentDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <a *ngIf="paymentId" mat-button routerLink="/payments">Cancelar</a>
+        <a *ngIf="!paymentId" mat-button mat-dialog-close>Cancelar</a>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Agregar</button>
+    </mat-dialog-actions>
+</form>

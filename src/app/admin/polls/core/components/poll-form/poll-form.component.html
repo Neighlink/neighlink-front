@@ -1,0 +1,29 @@
+<h2 mat-dialog-title *ngIf="!pollId">Agregar encuesta</h2>
+<h2 mat-dialog-title *ngIf="pollId">Editar encuesta</h2>
+<form [formGroup]="pollFG" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="mat-typography">
+        <div class="example-container">
+            <mat-form-field>
+                <input matInput placeholder="Título" formControlName="title">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Descripción" formControlName="description">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Fecha de inicio" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker1" placeholder="Fecha de fin" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end" style="text-align: right;">
+        <a *ngIf="pollId" mat-button routerLink="/polls">Cancelar</a>
+        <a *ngIf="!pollId" mat-button mat-dialog-close>Cancelar</a>
+        <button type="button" mat-button [mat-dialog-close]="true">Agregar</button>
+    </mat-dialog-actions>
+</form>
