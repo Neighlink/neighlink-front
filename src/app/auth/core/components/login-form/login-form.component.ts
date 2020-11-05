@@ -26,7 +26,6 @@ export class LoginFormComponent implements OnInit {
   reset(){
     this.loading = false;
     this.loginFG = this.fb.group({
-      condominiumId: [null,[Validators.required]],
       email: ['',[Validators.email]],
       password: ['',[Validators.required]],
     });
@@ -46,11 +45,11 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     this.reset();
-    this.getCondominiums();
   }
 
   onLogin(){
-    if(this.loginFG.valid){
+    this.router.navigateByUrl('/payments');
+    /* if(this.loginFG.valid){
       this.loading = true;
       const loginRequest = Object.assign({},this.loginFG.value);
 
@@ -68,7 +67,7 @@ export class LoginFormComponent implements OnInit {
         );
     } else{
      console.log('Verifica los campos e intenta nuevamente', 'Formulario inválido');
-    }
+    } */
   }
 
 }

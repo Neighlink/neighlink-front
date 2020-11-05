@@ -9,13 +9,25 @@
 				<mat-icon aria-hidden="false">dashboard</mat-icon>
 				<span style="margin-left: 5px;">Inicio</span>
 			</a> -->
-			<a mat-list-item routerLink="/users" *ngIf="user.role == userRole.ADMINISTRATOR">
+			<!-- <a mat-list-item routerLink="/users" *ngIf="user.role == userRole.ADMINISTRATOR">
 				<mat-icon aria-hidden="false">people</mat-icon>
-				<span style="margin-left: 5px;">Usuarios</span>
+				<span style="margin-left: 5px;">Residentes</span>
 			</a>
 			<a mat-list-item routerLink="/bills" *ngIf="user.role == userRole.ADMINISTRATOR">
 				<mat-icon aria-hidden="false">list_alt</mat-icon>
-				<span style="margin-left: 5px;">Cuentas</span>
+				<span style="margin-left: 5px;">Categorías</span>
+			</a>
+			<a mat-list-item routerLink="/payments">
+				<mat-icon aria-hidden="false">attach_money</mat-icon>
+				<span style="margin-left: 5px;">Pagos</span>
+			</a> -->
+			<a mat-list-item routerLink="/users">
+				<mat-icon aria-hidden="false">people</mat-icon>
+				<span style="margin-left: 5px;">Residentes</span>
+			</a>
+			<a mat-list-item routerLink="/bills">
+				<mat-icon aria-hidden="false">list_alt</mat-icon>
+				<span style="margin-left: 5px;">Categorías</span>
 			</a>
 			<a mat-list-item routerLink="/payments">
 				<mat-icon aria-hidden="false">attach_money</mat-icon>
@@ -25,9 +37,13 @@
 				<mat-icon aria-hidden="false">poll</mat-icon>
 				<span style="margin-left: 5px;">Encuestas</span>
 			</a> -->
-			<a mat-list-item routerLink="/buildings" *ngIf="user.role == userRole.ADMINISTRATOR">
+			<!-- <a mat-list-item routerLink="/buildings" *ngIf="user.role == userRole.ADMINISTRATOR">
 				<mat-icon aria-hidden="false" aria-label="Example poll icon">apartment</mat-icon>
-				<span style="margin-left: 5px;">Edificios</span>
+				<span style="margin-left: 5px;">Condominios</span>
+			</a> -->
+			<a mat-list-item routerLink="/buildings">
+				<mat-icon aria-hidden="false" aria-label="Example poll icon">apartment</mat-icon>
+				<span style="margin-left: 5px;">Condominios</span>
 			</a>
 			<a mat-list-item (click)="logout()">
 				<mat-icon aria-hidden="false" aria-label="Example chevron_left icon">chevron_left</mat-icon>

@@ -1,20 +1,26 @@
 <form [formGroup]="signupFG" (ngSubmit)="onSignup()">
     <div class="example-container">
         <mat-form-field>
-            <mat-select placeholder="Selecciona tu condominio" formControlName="condominiumId" (selectionChange)="condominiumChosed()">
-                <mat-option *ngFor="let condominium of condominiums" [value]="condominium.id">{{condominium.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngIf="signupFG.value.condominiumId">
-            <mat-select placeholder="Edificio" formControlName="buildingId">
-                <mat-option *ngFor="let building of buildings" [value]="building.id">{{building.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
             <input matInput placeholder="Nombres" formControlName="name">
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="Apellidos" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Celular" formControlName="phoneNumber">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder="Género" formControlName="genderId">
+                <mat-option [value]="0"> Mujer </mat-option>
+                <mat-option [value]="1"> Varón </mat-option>
+                <mat-option [value]="2"> Prefiero no decir</mat-option>
+            </mat-select>
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="Correo Electrónico" formControlName="email" name="signupEmail">

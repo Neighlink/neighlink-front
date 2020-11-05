@@ -7,7 +7,7 @@
                 <input matInput placeholder="Título" formControlName="name">
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Edificio" formControlName="buildingId">
+                <mat-select placeholder="Condominio" formControlName="buildingId">
                     <mat-option *ngFor="let building of buildings" [value]="building.id">{{building.name}}</mat-option>
                 </mat-select>
             </mat-form-field>

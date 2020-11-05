@@ -1,5 +1,5 @@
-<h2 mat-dialog-title *ngIf="!userId">Agregar usuario</h2>
-<h2 mat-dialog-title *ngIf="userId">Editar usuario</h2>
+<h2 mat-dialog-title *ngIf="!userId">Agregar residente</h2>
+<h2 mat-dialog-title *ngIf="userId">Editar residente</h2>
 <form [formGroup]="userFG" (ngSubmit)="onSubmit()">
     <mat-dialog-content class="mat-typography">
         <div class="example-container">
@@ -22,7 +22,7 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field *ngIf="userFG.value.role == 1">
-                <mat-select placeholder="Edificio" formControlName="buildingId">
+                <mat-select placeholder="Condominio" formControlName="buildingId">
                     <mat-option *ngFor="let building of buildings" [value]="building.id">{{building.name}}</mat-option>
                 </mat-select>
             </mat-form-field>

@@ -1,11 +1,6 @@
 <form [formGroup]="loginFG" (ngSubmit)="onLogin()">
     <div class="example-container">
         <mat-form-field>
-            <mat-select placeholder="Selecciona tu condominio" formControlName="condominiumId">
-                <mat-option *ngFor="let condominium of condominiums" [value]="condominium.id">{{condominium.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
             <input matInput placeholder="Correo Electrónico" formControlName="email" name="loginEmail">
         </mat-form-field>
         <mat-form-field>
