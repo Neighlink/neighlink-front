@@ -3,24 +3,12 @@
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
 		[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		[opened]="(isHandset$ | async) === false">
-		<mat-toolbar>Juan de Aliaga</mat-toolbar>
+		<mat-toolbar>Neighlink</mat-toolbar>
 		<mat-nav-list>
-			<!-- <a mat-list-item routerLink="/" *ngIf="user.role == userRole.ADMINISTRATOR">
+			<a mat-list-item routerLink="/">
 				<mat-icon aria-hidden="false">dashboard</mat-icon>
 				<span style="margin-left: 5px;">Inicio</span>
-			</a> -->
-			<!-- <a mat-list-item routerLink="/users" *ngIf="user.role == userRole.ADMINISTRATOR">
-				<mat-icon aria-hidden="false">people</mat-icon>
-				<span style="margin-left: 5px;">Residentes</span>
 			</a>
-			<a mat-list-item routerLink="/bills" *ngIf="user.role == userRole.ADMINISTRATOR">
-				<mat-icon aria-hidden="false">list_alt</mat-icon>
-				<span style="margin-left: 5px;">Categorías</span>
-			</a>
-			<a mat-list-item routerLink="/payments">
-				<mat-icon aria-hidden="false">attach_money</mat-icon>
-				<span style="margin-left: 5px;">Pagos</span>
-			</a> -->
 			<a mat-list-item routerLink="/users">
 				<mat-icon aria-hidden="false">people</mat-icon>
 				<span style="margin-left: 5px;">Residentes</span>
@@ -33,17 +21,13 @@
 				<mat-icon aria-hidden="false">attach_money</mat-icon>
 				<span style="margin-left: 5px;">Pagos</span>
 			</a>
-			<!-- <a mat-list-item routerLink="/polls">
+			<a mat-list-item routerLink="/polls">
 				<mat-icon aria-hidden="false">poll</mat-icon>
 				<span style="margin-left: 5px;">Encuestas</span>
-			</a> -->
-			<!-- <a mat-list-item routerLink="/buildings" *ngIf="user.role == userRole.ADMINISTRATOR">
-				<mat-icon aria-hidden="false" aria-label="Example poll icon">apartment</mat-icon>
-				<span style="margin-left: 5px;">Condominios</span>
-			</a> -->
+			</a>
 			<a mat-list-item routerLink="/buildings">
 				<mat-icon aria-hidden="false" aria-label="Example poll icon">apartment</mat-icon>
-				<span style="margin-left: 5px;">Condominios</span>
+				<span style="margin-left: 5px;">Edificios</span>
 			</a>
 			<a mat-list-item (click)="logout()">
 				<mat-icon aria-hidden="false" aria-label="Example chevron_left icon">chevron_left</mat-icon>
@@ -61,7 +45,14 @@
 				*ngIf="isHandset$ | async">
 				<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
 			</button>
-			<span>Neighlink</span>
+			<form [formGroup]="condominiumFG">
+				<mat-form-field>
+					<mat-select formControlName="id" (selectionChange)="select($event.value)">
+							<mat-option *ngFor="let condominium of condominiums" [value]="condominium.id">{{condominium.name}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<br/>
+		 </form>
 		</mat-toolbar>
 		<div style="padding: 20px;min-height: 80vh;">
 			<router-outlet style="width: 90%;margin: auto;"></router-outlet>

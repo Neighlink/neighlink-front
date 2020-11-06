@@ -74,11 +74,12 @@ export class SignupFormComponent implements OnInit {
   }
 
   onSignup(){
-    if(this.signupFG.valid){
+    this.router.navigateByUrl('/auth/code');
+    /* if(this.signupFG.valid){
       this.loading = true;
       const signupRequest = Object.assign({},this.signupFG.value);
       signupRequest.role = USER_ROLE.OWNER;
-      
+
       this.authService.signup(signupRequest)
         .subscribe(
           (response: any) => {
@@ -93,7 +94,7 @@ export class SignupFormComponent implements OnInit {
         );
     } else{
      console.log('Verifica los campos e intenta nuevamente', 'Formulario inválido');
-    }
+    } */
   }
 
 }

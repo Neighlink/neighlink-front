@@ -6,12 +6,16 @@ import { ViewsRoutingModule } from './views-routing.module';
 
 import { EditBuildingViewComponent } from './edit-building-view/edit-building-view.component';
 import { BuildingListViewComponent } from './building-list-view/building-list-view.component';
+import { FlatListViewComponent } from './flat-list-view/flat-list-view.component';
+import { EditFlatViewComponent } from './edit-flat-view/edit-flat-view.component';
 
 
 @NgModule({
   declarations: [
     EditBuildingViewComponent,
-    BuildingListViewComponent
+    BuildingListViewComponent,
+    FlatListViewComponent,
+    EditFlatViewComponent
   ],
   imports: [
     CommonModule,

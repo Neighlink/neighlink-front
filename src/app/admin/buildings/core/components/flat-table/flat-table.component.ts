@@ -3,18 +3,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Building } from 'src/app/core/models/building.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { BuildingFormComponent } from '../building-form/building-form.component';
 import { BuildingService } from 'src/app/core/services/building.service';
+import { FlatFormComponent } from '../flat-form/flat-form.component';
 
 @Component({
-  selector: 'building-table',
-  templateUrl: './building-table.component.html',
-  styleUrls: ['./building-table.component.scss']
+  selector: 'flat-table',
+  templateUrl: './flat-table.component.html',
+  styleUrls: ['./flat-table.component.scss']
 })
-export class BuildingTableComponent implements OnInit {
+export class FlatTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  displayedColumns= ['name', 'numberOfHomes','options'];
+  displayedColumns= ['name', 'number','options'];
   dataSource = new MatTableDataSource<Building>();
 
   constructor(
@@ -29,8 +29,8 @@ export class BuildingTableComponent implements OnInit {
 
   getBuildings(){
     const response: any = [
-      {id: 1, name: 'Edificio 1', numberOfHomes: 40},
-      {id: 2, name: 'Edificio 2', numberOfHomes: 38},
+      {id: 1, name: 'Edificio 1', number: 203},
+      {id: 2, name: 'Edificio 1', number: 405},
     ];
     this.dataSource = response;
     /* this.buildingService.getBuildingsByCondominium().subscribe(
@@ -49,7 +49,7 @@ export class BuildingTableComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(BuildingFormComponent, {
+    const dialogRef = this.dialog.open(FlatFormComponent, {
       width: '50%',
       data: {
         type: 'create',

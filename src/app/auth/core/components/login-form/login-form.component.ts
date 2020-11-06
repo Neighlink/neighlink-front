@@ -48,7 +48,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onLogin(){
-    this.router.navigateByUrl('/payments');
+    this.router.navigateByUrl('/');
     /* if(this.loginFG.valid){
       this.loading = true;
       const loginRequest = Object.assign({},this.loginFG.value);
