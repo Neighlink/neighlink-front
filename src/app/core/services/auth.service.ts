@@ -7,10 +7,10 @@ export class AuthService {
 	constructor(public api: ApiService){}
 
 	login(request: any){
-		return this.api.post('api/user/login', request);
+		return this.api.post('8092/profiles/administrators/auth', request);
 	}
 
 	signup(request: any){
-		return this.api.post('api/user/signup', request);
+		return this.api.post('8092/profiles/administrators', request);
 	}
 }
