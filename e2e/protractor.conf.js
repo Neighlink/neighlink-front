@@ -7,7 +7,6 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 /**
  * @type { import("protractor").Config }
  */
-
 exports.config = {
   // set to "custom" instead of cucumber.
   framework: 'custom',
@@ -19,35 +18,28 @@ exports.config = {
   specs: [
     './src/specs/*.feature' // accepts a glob
   ],
-  baseUrl: 'http://localhost:4200/auth',
-  // seleniumAddress: 'http://localhost:4444/wd/hub/',
+
   cucumberOpts: {
     // require step definitions
     require: [
-      './src/steps/*.steps.ts' // accepts a glob
+      './src/steps/*.step.ts' // accepts a glob
     ]
+  },
+
+  allScriptsTimeout: 11000,
+  capabilities: {
+    browserName: 'chrome'
+  },
+  directConnect: true,
+  baseUrl: 'http://localhost:4200/',
+  jasmineNodeOpts: {
+    showColors: true,
+    defaultTimeoutInterval: 30000,
+    print: function () { }
+  },
+  onPrepare() {
+    require('ts-node').register({
+      project: require('path').join(__dirname, './tsconfig.json')
+    });
   }
 };
-// exports.config = {
-//   allScriptsTimeout: 11000,
-//   specs: [
-//     './src/**/*.e2e-spec.ts'
-//   ],
-//   capabilities: {
-//     'browserName': 'chrome'
-//   },
-//   directConnect: true,
-//   baseUrl: 'http://localhost:4200/',
-//   framework: 'jasmine',
-//   jasmineNodeOpts: {
-//     showColors: true,
-//     defaultTimeoutInterval: 30000,
-//     print: function() {}
-//   },
-//   onPrepare() {
-//     require('ts-node').register({
-//       project: require('path').join(__dirname, './tsconfig.json')
-//     });
-//     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-//   }
-// };

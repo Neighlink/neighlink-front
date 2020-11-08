@@ -1,0 +1,3 @@
+[1108/030631.090:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1108/030938.187:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Diana\AppData\Local\Temp\scoped_dir13976_398788846\Crashpad\attachments\869ba541-c833-4ff3-93ed-0aa386965a49: The system cannot find the path specified. (0x3)
+[1108/033720.248:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
