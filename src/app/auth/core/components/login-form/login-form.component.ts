@@ -39,7 +39,10 @@ export class LoginFormComponent implements OnInit {
       this.authService.login(loginRequest)
         .subscribe(
           (response: any) => {
-            localStorage.setItem('userLogged', JSON.stringify(response));
+            let user = response.result.user;
+            user.id = response.result.id;
+            localStorage.setItem('userLogged', JSON.stringify(user));
+            localStorage.setItem('token', response.result.user.token);
             this.router.navigateByUrl('/');
             /* if (response.role == USER_ROLE.ADMINISTRATOR) this.router.navigateByUrl('/users');
             if (response.role == USER_ROLE.OWNER) this.router.navigateByUrl('/payments'); */

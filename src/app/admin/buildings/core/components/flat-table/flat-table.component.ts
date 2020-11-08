@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { BuildingService } from 'src/app/core/services/building.service';
 import { FlatFormComponent } from '../flat-form/flat-form.component';
+import { FlatService } from 'src/app/core/services/flat.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'flat-table',
@@ -14,46 +16,55 @@ import { FlatFormComponent } from '../flat-form/flat-form.component';
 export class FlatTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  displayedColumns= ['name', 'number','options'];
+  displayedColumns= ['name', 'limiteRegister', 'secretCode','options'];
   dataSource = new MatTableDataSource<Building>();
+
+  private buildingId: number = null;
 
   constructor(
     public dialog: MatDialog,
-    private buildingService: BuildingService
+    private flatService: FlatService,
+    private route: ActivatedRoute,
   ) {
-    this.buildingService.listenerRefreshList()
+    this.flatService.listenerRefreshList()
     .subscribe( status => {
-      if(status) this.getBuildings();
+      if(status) this.getFlats();
     })
   }
 
-  getBuildings(){
-    const response: any = [
-      {id: 1, name: 'Edificio 1', number: 203},
-      {id: 2, name: 'Edificio 1', number: 405},
+  getFlats(){
+    /* const response: any = [
+      {id: 1, name: 'Edificio 1', limiteRegister: 203},
+      {id: 2, name: 'Edificio 1', limiteRegister: 405},
     ];
-    this.dataSource = response;
-    /* this.buildingService.getBuildingsByCondominium().subscribe(
+    this.dataSource = response; */
+    this.flatService.getFlatsByBuilding(this.buildingId).subscribe(
       (response: any) =>{
-        this.dataSource = response;
-        this.dataSource.paginator = this.paginator;
+        if(response.result.length > 0){
+          this.dataSource = response.result;
+          this.dataSource.paginator = this.paginator;
+        }
       },
       (error: any) =>{
         console.log('error', error);
       }
-    ) */
+    )
   }
 
   ngOnInit() {
-    this.getBuildings();
+    this.route.params.subscribe((params: Params) => {
+      this.buildingId = params.id;
+      if(this.buildingId) this.getFlats();
+    });
   }
 
-  openDialog(): void {
+  openDialog(type: string, flat?): void {
     const dialogRef = this.dialog.open(FlatFormComponent, {
       width: '50%',
       data: {
-        type: 'create',
-        info: null
+        type,
+        buildingId: this.buildingId,
+        flat
       }
     });
 

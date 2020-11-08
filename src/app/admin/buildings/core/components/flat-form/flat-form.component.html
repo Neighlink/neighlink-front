@@ -1,16 +1,10 @@
-<h2 mat-dialog-title *ngIf="!flatId">Agregar departamento</h2>
-<h2 mat-dialog-title *ngIf="flatId">Editar departamento</h2>
+<h2 mat-dialog-title *ngIf="type == 'new'">Agregar departamento</h2>
+<h2 mat-dialog-title *ngIf="type != 'new'">Editar departamento</h2>
 <form [formGroup]="flatFG" (ngSubmit)="onSubmit()">
     <mat-dialog-content class="mat-typography">
         <div class="example-container">
             <mat-form-field>
                 <input matInput placeholder="Nombre" formControlName="name">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Descripción" formControlName="description">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Cantidad de viviendas" formControlName="numberOfHomes">
             </mat-form-field>
         </div>
     </mat-dialog-content>

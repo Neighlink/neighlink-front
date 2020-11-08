@@ -4,7 +4,7 @@
 		[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		[opened]="(isHandset$ | async) === false">
 		<mat-toolbar>Neighlink</mat-toolbar>
-		<mat-nav-list>
+		<mat-nav-list *ngIf="condominiums.length > 0">
 			<a mat-list-item routerLink="/">
 				<mat-icon aria-hidden="false">dashboard</mat-icon>
 				<span style="margin-left: 5px;">Inicio</span>

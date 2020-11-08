@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { BuildingService } from 'src/app/core/services/building.service';
-import { Building } from 'src/app/core/models/building.model';
 import { Observable } from 'rxjs';
+import { FlatService } from 'src/app/core/services/flat.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'flat-form',
@@ -11,38 +10,44 @@ import { Observable } from 'rxjs';
   styleUrls: ['./flat-form.component.scss']
 })
 export class FlatFormComponent implements OnInit {
+  public buildingId: number;
+  public type: string;
+
   public flatId: number;
   public flatFG: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private buildingService: BuildingService
-  ) { }
+    private flatService: FlatService,
+    public dialogRef: MatDialogRef<FlatFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.reset();
+    if(this.data){
+      this.type = this.data.type;
+      this.buildingId = Number(this.data.buildingId);
+      if(this.data.flat) this.flatFG.patchValue(this.data.flat);
+    }
+  }
 
   reset(){
     this.flatId = null;
     this.flatFG = this.fb.group({
       id: [],
       name: ['',[Validators.required]],
-      description: ['',[Validators.required]],
-      numberOfHomes: ['',[Validators.required]]
+      limitRegister: [1,[Validators.required]],
+      buildingId: [null],
+      secretCode: [null],
     });
   }
 
   ngOnInit() {
-    this.reset();
-    this.route.params.subscribe((params: Params) => {
-      this.flatId = params.id;
-      if(this.flatId) this.getBuilding();
-    });
   }
 
-  getBuilding(){
-    this.buildingService.getBuildingById(this.flatId).subscribe(
+  getFlat(){
+    this.flatService.getFlatById(this.flatId).subscribe(
       (response: any)=>{
-        this.flatFG.patchValue(response);
+        this.flatFG.patchValue(response.result);
       },
       (error: any)=>{
         console.log('error', error);
@@ -51,20 +56,20 @@ export class FlatFormComponent implements OnInit {
   }
 
   onSubmit(){
+    console.log(this.flatFG.value);
     if(this.flatFG.valid){
-      let flat: Building = Object.assign({},this.flatFG.value);
+      let flat: any = Object.assign({},this.flatFG.value);
       let request: Observable<any>;
 
       if(!flat.id){
-        request = this.buildingService.createBuilding(flat)
+        request = this.flatService.createFlat(flat, this.buildingId)
       } else {
-        request = this.buildingService.updateBuilding(flat)
+        request = this.flatService.updateFlat(flat)
       }
 
       request.subscribe(
         (response: any)=>{
-          if (!flat.id) this.buildingService.refreshList(true);
-          if (flat.id) this.router.navigate(['/buildings']);
+          this.flatService.refreshList(true);
         },
         (error: any)=>{
           console.log('error', error);

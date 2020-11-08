@@ -19,7 +19,7 @@ const routes: Routes = [
     component: FlatListViewComponent
   },
   {
-    path: 'flats/edit/id',
+    path: 'flats/:id/edit/:flatId',
     component: EditFlatViewComponent
   }
 ];

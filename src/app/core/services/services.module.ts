@@ -9,6 +9,7 @@ import { BuildingService } from './building.service';
 import { AuthService } from './auth.service';
 import { CondominiumService } from './condominium.service'
 import { PaymentCategoryService } from './payment-category.service';
+import { FlatService } from './flat.service';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import { PaymentCategoryService } from './payment-category.service';
     BuildingService,
     AuthService,
     CondominiumService,
-    PaymentCategoryService
+    PaymentCategoryService,
+    FlatService,
   ]
 })
 export class ServicesModule { }

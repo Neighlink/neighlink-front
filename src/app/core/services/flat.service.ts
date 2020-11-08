@@ -3,7 +3,7 @@ import { ApiService } from './api.service';
 import { Subject, Observable } from 'rxjs';
 
 @Injectable()
-export class BuildingService {
+export class FlatService {
   private subjectList = new Subject<any>();
   private subjectForm = new Subject<any>();
 
@@ -11,24 +11,24 @@ export class BuildingService {
     private apiService: ApiService
   ) { }
 
-  createBuilding(request: any) {
+  createFlat(request: any, buildingId: number) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.post(`8091/configurations/condominiums/${condominium.id}/buildings`, request);
+    return this.apiService.post(`8091/configurations/condominiums/${condominium.id}/buildings/${buildingId}/departments`, request);
   }
 
-  updateBuilding(request: any) {
+  updateFlat(request: any) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.put(`8091/configurations/condominiums/${condominium.id}/buildings/${request.id}`, request);
+    return this.apiService.put(`8091/configurations/condominiums/${condominium.id}/buildings/${request.buildingId}/departments`, request);
   }
 
-  getBuildingById(buildingId: number) {
+  getFlatById(flatId: number) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings/${buildingId}`);
+    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings/{buildingId}/departments/${flatId}`);
   }
 
-  getBuildingsByCondominium() {
+  getFlatsByBuilding(buildingId: number) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings`);
+    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings/${buildingId}/departments`);
   }
 
   refreshList(status:boolean){

@@ -26,15 +26,14 @@ export class BuildingFormComponent implements OnInit {
     this.buildingFG = this.fb.group({
       id: [],
       name: ['',[Validators.required]],
-      description: ['',[Validators.required]],
-      numberOfHomes: ['',[Validators.required]]
     });
   }
 
   ngOnInit() {
     this.reset();
     this.route.params.subscribe((params: Params) => {
-      this.buildingId = params.id;
+      console.log('params', params);
+      this.buildingId = Number(params.id);
       if(this.buildingId) this.getBuilding();
     });
   }
@@ -42,7 +41,7 @@ export class BuildingFormComponent implements OnInit {
   getBuilding(){
     this.buildingService.getBuildingById(this.buildingId).subscribe(
       (response: any)=>{
-        this.buildingFG.patchValue(response);
+        this.buildingFG.patchValue(response.result);
       },
       (error: any)=>{
         console.log('error', error);

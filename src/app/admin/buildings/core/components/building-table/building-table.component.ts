@@ -14,7 +14,7 @@ import { BuildingService } from 'src/app/core/services/building.service';
 export class BuildingTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  displayedColumns= ['name', 'numberOfHomes','options'];
+  displayedColumns= ['name','options'];
   dataSource = new MatTableDataSource<Building>();
 
   constructor(
@@ -28,20 +28,17 @@ export class BuildingTableComponent implements OnInit {
   }
 
   getBuildings(){
-    const response: any = [
-      {id: 1, name: 'Edificio 1', numberOfHomes: 40},
-      {id: 2, name: 'Edificio 2', numberOfHomes: 38},
-    ];
-    this.dataSource = response;
-    /* this.buildingService.getBuildingsByCondominium().subscribe(
+    this.buildingService.getBuildingsByCondominium().subscribe(
       (response: any) =>{
-        this.dataSource = response;
-        this.dataSource.paginator = this.paginator;
+        if(response.result.length > 0){
+          this.dataSource = response.result;
+          this.dataSource.paginator = this.paginator;
+        }
       },
       (error: any) =>{
         console.log('error', error);
       }
-    ) */
+    )
   }
 
   ngOnInit() {

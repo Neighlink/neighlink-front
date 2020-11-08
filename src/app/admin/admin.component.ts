@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
 import { User } from '../core/models/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Condominium } from '../core/models/condominium.model';
+import { CondominiumService } from '../core/services/condominium.service';
+import { MatDialog } from '@angular/material';
+import { CondominiumDialogComponent } from '../shared/components/condominium-dialog/condominium-dialog.component';
 
 @Component({
   selector: 'app-admin',
@@ -25,6 +29,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private condominiumService: CondominiumService,
+    public dialog: MatDialog,
     private router: Router,
     private fb: FormBuilder,
   ) {
@@ -39,17 +45,53 @@ export class AdminComponent implements OnInit {
       id: [null,[Validators.required]],
       name: ['',[Validators.required]],
     });
+  }
+
+  getCondominiums(){
     this.condominiums = [
       { id: 1, name: 'Juan de aliaga'},
       { id: 2, name: 'Salaverry'},
     ];
-    const condominium = localStorage.getItem('condominium');
-    if (condominium) this.condominiumFG.patchValue(JSON.parse(condominium));
-    else this.condominiumFG.patchValue(this.condominiums[0]);
+    this.condominiumService.getCondominiums().subscribe(
+      (response: any)=>{
+        if(response.result.length > 0){
+          this.condominiums = response.result;
+          localStorage.setItem('condominiums', JSON.stringify(response.result));
+
+          const condominiumSelected = localStorage.getItem('condominium');
+          if (condominiumSelected) this.condominiumFG.patchValue(JSON.parse(condominiumSelected));
+          else{
+            localStorage.setItem('condominium', JSON.stringify(this.condominiums[0]));
+            this.condominiumFG.patchValue(this.condominiums[0]);
+          }
+
+        } else {
+          this.openCondominiumDialog();
+        }
+      },
+      (error: any)=>{
+        console.log(error);
+        this.condominiums = [];
+        this.openCondominiumDialog();
+      }
+    )
   }
 
   ngOnInit(){
     this.reset();
+    this.getCondominiums();
+  }
+
+  openCondominiumDialog(){
+    const dialogRef = this.dialog.open(CondominiumDialogComponent, {
+      width: '300px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getCondominiums();
+      console.log('The dialog was closed', result);
+    });
   }
 
   select(cId: number){
@@ -60,8 +102,8 @@ export class AdminComponent implements OnInit {
   }
 
   logout() {
-    this.router.navigate(['/auth']);
     localStorage.clear();
+    this.router.navigate(['/auth']);
   }
 
 }
