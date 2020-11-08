@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BuildingService } from 'src/app/core/services/building.service';
 import { Building } from 'src/app/core/models/building.model';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'building-form',
@@ -18,7 +19,8 @@ export class BuildingFormComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private _snackBar: MatSnackBar
   ) { }
 
   reset(){
@@ -64,6 +66,9 @@ export class BuildingFormComponent implements OnInit {
         (response: any)=>{
           if (!building.id) this.buildingService.refreshList(true);
           if (building.id) this.router.navigate(['/buildings']);
+          this._snackBar.open('Operación exitosa ✔️', '', {
+            duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
+          });
         },
         (error: any)=>{
           console.log('error', error);

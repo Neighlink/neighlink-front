@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BillService } from 'src/app/core/services/bill.service';
 import { Observable } from 'rxjs';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'bill-form',
@@ -20,7 +20,8 @@ export class BillFormComponent implements OnInit {
     private fb: FormBuilder,
     private billService: BillService,
     public dialogRef: MatDialogRef<BillFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _snackBar: MatSnackBar
   ) {
     this.reset();
 
@@ -55,6 +56,9 @@ export class BillFormComponent implements OnInit {
 
       request.subscribe(
         (response: any)=>{
+          this._snackBar.open('Operación exitosa ✔️', '', {
+            duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
+          });
           this.billService.refreshList(true);
         },
         (error: any)=>{

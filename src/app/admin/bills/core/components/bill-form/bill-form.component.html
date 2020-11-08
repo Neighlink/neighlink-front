@@ -13,6 +13,9 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <a mat-button mat-dialog-close>Cancelar</a>
-        <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial>Agregar</button>
+        <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial>
+            <span *ngIf="type == 'new'">Agregar</span>
+            <span *ngIf="type != 'new'">Editar</span>
+        </button>
     </mat-dialog-actions>
 </form>

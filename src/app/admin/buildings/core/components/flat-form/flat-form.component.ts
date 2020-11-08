@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FlatService } from 'src/app/core/services/flat.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'flat-form',
@@ -20,7 +20,8 @@ export class FlatFormComponent implements OnInit {
     private fb: FormBuilder,
     private flatService: FlatService,
     public dialogRef: MatDialogRef<FlatFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _snackBar: MatSnackBar
   ) {
     this.reset();
     if(this.data){
@@ -68,6 +69,9 @@ export class FlatFormComponent implements OnInit {
 
       request.subscribe(
         (response: any)=>{
+          this._snackBar.open('Operación exitosa ✔️', '', {
+            duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
+          });
           this.flatService.refreshList(true);
         },
         (error: any)=>{

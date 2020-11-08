@@ -3,7 +3,9 @@
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
 		[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		[opened]="(isHandset$ | async) === false">
-		<mat-toolbar>Neighlink</mat-toolbar>
+		<mat-toolbar>
+			Neighlink Software
+		</mat-toolbar>
 		<mat-nav-list *ngIf="condominiums.length > 0">
 			<a mat-list-item routerLink="/">
 				<mat-icon aria-hidden="false">dashboard</mat-icon>
@@ -45,7 +47,7 @@
 				*ngIf="isHandset$ | async">
 				<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
 			</button>
-			<form [formGroup]="condominiumFG">
+			<form [formGroup]="condominiumFG" *ngIf="condominiums.length > 0">
 				<mat-form-field>
 					<mat-select formControlName="id" (selectionChange)="select($event.value)">
 							<mat-option *ngFor="let condominium of condominiums" [value]="condominium.id">{{condominium.name}}</mat-option>

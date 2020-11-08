@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'signup-form',
@@ -17,6 +18,7 @@ export class SignupFormComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private _snackBar: MatSnackBar,
   ) { }
 
   reset(){
@@ -46,7 +48,9 @@ export class SignupFormComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response) {
-              //message de sucess register
+              this._snackBar.open('Registro exitoso ✔️', '', {
+                duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
+              });
               this.router.navigateByUrl('/auth');
             }
             this.loading = false;

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'login-form',
@@ -16,7 +17,8 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ){ }
 
   reset(){
@@ -43,17 +45,24 @@ export class LoginFormComponent implements OnInit {
             user.id = response.result.id;
             localStorage.setItem('userLogged', JSON.stringify(user));
             localStorage.setItem('token', response.result.user.token);
+
+            this._snackBar.open('¡Hola de nuevo!', '', {
+              duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
+            });
             this.router.navigateByUrl('/');
             /* if (response.role == USER_ROLE.ADMINISTRATOR) this.router.navigateByUrl('/users');
             if (response.role == USER_ROLE.OWNER) this.router.navigateByUrl('/payments'); */
             this.loading = false;
           },
           (error: any) => {
+            this._snackBar.open('Usuario no encontrado ❌', '', {
+              duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
+            });
             this.loading = false;
           }
         );
     } else{
-     console.log('Verifica los campos e intenta nuevamente', 'Formulario inválido');
+      console.log('Verifica los campos e intenta nuevamente', 'Formulario inválido');
     }
   }
 
