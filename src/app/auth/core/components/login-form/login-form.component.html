@@ -1,10 +1,10 @@
 <form [formGroup]="loginFG" (ngSubmit)="onLogin()">
     <div class="example-container">
         <mat-form-field>
-            <input matInput placeholder="Correo Electrónico" formControlName="email" name="loginEmail">
+            <input id="login-email" matInput placeholder="Correo Electrónico" formControlName="email" name="loginEmail">
         </mat-form-field>
         <mat-form-field>
-            <input matInput type="password" placeholder="Contraseña" formControlName="password" name="loginPassword">
+            <input id="login-password" matInput type="password" placeholder="Contraseña" formControlName="password" name="loginPassword">
         </mat-form-field>
         <div>
             <button id="login-btn" type="submit" mat-raised-button color="primary" style="width: 100%;">

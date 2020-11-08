@@ -1,6 +1,7 @@
 Feature: Login
 
-Scenario: I want to see the dashboard page
+Scenario: I want to login
   Given I am on the login page
-  When  I click on the login button
+  When  I filled all the mandatory login form fields
+  And   I click on the login button
   Then  I should be redirected on dashboard page
