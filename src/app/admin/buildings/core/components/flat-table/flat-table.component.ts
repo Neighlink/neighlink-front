@@ -3,7 +3,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Building } from 'src/app/core/models/building.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { BuildingService } from 'src/app/core/services/building.service';
 import { FlatFormComponent } from '../flat-form/flat-form.component';
 import { FlatService } from 'src/app/core/services/flat.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -33,11 +32,6 @@ export class FlatTableComponent implements OnInit {
   }
 
   getFlats(){
-    /* const response: any = [
-      {id: 1, name: 'Edificio 1', limiteRegister: 203},
-      {id: 2, name: 'Edificio 1', limiteRegister: 405},
-    ];
-    this.dataSource = response; */
     this.flatService.getFlatsByBuilding(this.buildingId).subscribe(
       (response: any) =>{
         if(response.result.length > 0){
@@ -71,6 +65,17 @@ export class FlatTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result.status) console.log('update list')
     });
+  }
+
+  deleteElement(element: any){
+    this.flatService.deleteFlat(element).subscribe(
+      (response: any) => {
+        this.getFlats();
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    )
   }
 
 }

@@ -31,6 +31,11 @@ export class BuildingService {
     return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings`);
   }
 
+  deleteBuilding(e: any){
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.delete(`8091/configurations/condominiums/${condominium.id}/buildings/${e.id}`)
+  }
+
   refreshList(status:boolean){
     this.subjectList.next({status});
   }

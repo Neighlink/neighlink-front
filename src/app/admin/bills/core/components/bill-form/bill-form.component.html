@@ -1,39 +1,18 @@
-<h2 mat-dialog-title *ngIf="!billId">Agregar cuenta</h2>
-<h2 mat-dialog-title *ngIf="billId">Editar cuenta</h2>
+<h2 mat-dialog-title *ngIf="type == 'new'">Agregar cuenta</h2>
+<h2 mat-dialog-title *ngIf="type != 'new'">Editar cuenta</h2>
 <form [formGroup]="billFG" (ngSubmit)="onSubmit()">
     <mat-dialog-content class="mat-typography">
         <div class="example-container">
             <mat-form-field>
-                <input matInput placeholder="Título" formControlName="name">
+                <input matInput placeholder="Nombre" formControlName="name">
             </mat-form-field>
             <mat-form-field>
-                <mat-select placeholder="Condominio" formControlName="buildingId">
-                    <mat-option *ngFor="let building of buildings" [value]="building.id">{{building.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-select placeholder="Categoría" formControlName="paymentCategoryId">
-                    <mat-option *ngFor="let category of paymentCategories" [value]="category.id">{{category.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Fecha de inicio" formControlName="startDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker1" placeholder="Fecha de fin" formControlName="endDate">
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Monto" formControlName="amount">
+                <input matInput placeholder="Descripción" formControlName="description">
             </mat-form-field>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <a *ngIf="billId" mat-button routerLink="/bills">Cancelar</a>
-        <a *ngIf="!billId" mat-button mat-dialog-close>Cancelar</a>
+        <a mat-button mat-dialog-close>Cancelar</a>
         <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial>Agregar</button>
     </mat-dialog-actions>
 </form>

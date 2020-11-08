@@ -11,27 +11,24 @@ export class BillService {
     private apiService: ApiService
   ) { }
 
+  getBillsByCondominium() {
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/paymentCategories`);
+  }
+
   createBill(request: any) {
-    delete request.id;
-    return this.apiService.post('api/bill', request);
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.post(`8091/configurations/condominiums/${condominium.id}/paymentCategories`, request);
   }
 
   updateBill(request: any) {
-    return this.apiService.put('api/bill', request);
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.put(`8091/configurations/condominiums/${condominium.id}/paymentCategories/${request.id}`, request);
   }
 
-  getBills() {
-    return this.apiService.get('api/bill/all');
-  }
-
-  getBillById(billId: number) {
-    return this.apiService.get(`api/bill/byId/${billId}`);
-  }
-
-  getBillsByCondominium(condominiumId?: number) {
-    var userLogged = JSON.parse(localStorage.getItem('userLogged'));
-    var condoId = condominiumId ? condominiumId : userLogged.condominiumId;
-    return this.apiService.get('api/bill/by-condominium/'+ condoId);
+  deleteBill(billId: any){
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.delete(`8091/configurations/condominiums/${condominium.id}/paymentCategories/${billId}`)
   }
 
   refreshList(status:boolean){

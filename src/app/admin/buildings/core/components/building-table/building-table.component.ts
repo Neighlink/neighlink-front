@@ -36,7 +36,7 @@ export class BuildingTableComponent implements OnInit {
         }
       },
       (error: any) =>{
-        console.log('error', error);
+        console.error('error', error);
       }
     )
   }
@@ -57,6 +57,17 @@ export class BuildingTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result.status) console.log('update list')
     });
+  }
+
+  deleteElement(element: any){
+    this.buildingService.deleteBuilding(element).subscribe(
+      (response: any) => {
+        this.getBuildings();
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    )
   }
 
 }

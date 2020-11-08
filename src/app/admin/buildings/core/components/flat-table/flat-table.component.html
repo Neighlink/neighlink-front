@@ -27,7 +27,7 @@
           </button>
           <mat-menu #menu="matMenu">
               <a mat-menu-item (click)="openDialog('edit', element)">Editar</a>
-              <button mat-menu-item> Eliminar</button>
+              <a mat-menu-item (click)="deleteElement(element)"> Eliminar</a>
           </mat-menu>
       </td>
   </ng-container>

@@ -56,7 +56,6 @@ export class FlatFormComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.flatFG.value);
     if(this.flatFG.valid){
       let flat: any = Object.assign({},this.flatFG.value);
       let request: Observable<any>;
