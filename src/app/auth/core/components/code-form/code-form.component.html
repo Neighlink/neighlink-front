@@ -1,0 +1,10 @@
+<form [formGroup]="codeFG" (ngSubmit)="onCode()">
+  <div class="example-container">
+    <mat-form-field>
+      <input matInput placeholder="Código" formControlName="code">
+    </mat-form-field>
+    <div>
+      <button type="submit" mat-raised-button color="primary" style="width: 100%;">Validar</button>
+    </div>
+  </div>
+</form>

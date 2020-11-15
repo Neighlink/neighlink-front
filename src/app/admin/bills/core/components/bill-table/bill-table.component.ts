@@ -14,7 +14,7 @@ import { BillService } from 'src/app/core/services/bill.service';
 export class BillTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['name', 'amount', 'paymentCategoryId', 'buildingId', 'endDate', 'status', 'options'];
+  displayedColumns: string[] = ['name', 'description', 'options'];
   dataSource = new MatTableDataSource<Bill>();
 
   constructor(
@@ -30,7 +30,7 @@ export class BillTableComponent implements OnInit {
   getBills(){
     this.billService.getBillsByCondominium().subscribe(
       (response: any) =>{
-        this.dataSource = response;
+        this.dataSource = response.result;
         this.dataSource.paginator = this.paginator;
       },
       (error: any) =>{
@@ -43,17 +43,28 @@ export class BillTableComponent implements OnInit {
     this.getBills();
   }
 
-  openDialog(): void {
+  openDialog(type: string, bill?): void {
     const dialogRef = this.dialog.open(BillFormComponent, {
       width: '50%',
       data: {
-        type: 'create',
-        info: null
+        type,
+        bill
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.status) console.log('update list')
     });
+  }
+
+  deleteElement(element: any){
+    this.billService.deleteBill(element.id).subscribe(
+      (response:any) => {
+        this.getBills();
+      },
+      (error: any) => {
+        console.error('error', error);
+      }
+    )
   }
 }

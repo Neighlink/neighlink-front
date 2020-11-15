@@ -12,24 +12,28 @@ export class BuildingService {
   ) { }
 
   createBuilding(request: any) {
-    var userLogged = JSON.parse(localStorage.getItem('userLogged'));
-    request.condominiumId = userLogged.condominiumId;
-    delete request.id;
-    return this.apiService.post('api/building', request);
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.post(`8091/configurations/condominiums/${condominium.id}/buildings`, request);
   }
 
   updateBuilding(request: any) {
-    return this.apiService.put('api/building', request);
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.put(`8091/configurations/condominiums/${condominium.id}/buildings/${request.id}`, request);
   }
 
   getBuildingById(buildingId: number) {
-    return this.apiService.get(`api/building/byId/${buildingId}`);
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings/${buildingId}`);
   }
 
-  getBuildingsByCondominium(condominiumId?: number) {
-    var userLogged = JSON.parse(localStorage.getItem('userLogged'));
-    var condoId = condominiumId ? condominiumId : userLogged.condominiumId;
-    return this.apiService.get('api/building/by-condominium/'+ condoId);
+  getBuildingsByCondominium() {
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.get(`8091/configurations/condominiums/${condominium.id}/buildings`);
+  }
+
+  deleteBuilding(e: any){
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.delete(`8091/configurations/condominiums/${condominium.id}/buildings/${e.id}`)
   }
 
   refreshList(status:boolean){

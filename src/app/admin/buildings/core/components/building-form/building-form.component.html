@@ -4,19 +4,17 @@
     <mat-dialog-content class="mat-typography">
         <div class="example-container">
             <mat-form-field>
-                <input matInput placeholder="Nombre" formControlName="name">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Descripción" formControlName="description">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Cantidad de viviendas" formControlName="numberOfHomes">
+                <input id="building-name" matInput placeholder="Nombre" formControlName="name">
             </mat-form-field>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <a *ngIf="buildingId" mat-button routerLink="/buildings">Cancelar</a>
         <a *ngIf="!buildingId" mat-button mat-dialog-close>Cancelar</a>
-        <button type="subtmit" mat-button [mat-dialog-close]="true" cdkFocusInitial>Agregar</button>
+        <button id="save-building-btn" type="subtmit" mat-button [disabled]="buildingFG.invalid"
+            [mat-dialog-close]="true" cdkFocusInitial>
+            <span *ngIf="!buildingId">Agregar</span>
+            <span *ngIf="buildingId">Editar</span>
+        </button>
     </mat-dialog-actions>
 </form>

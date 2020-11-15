@@ -30,7 +30,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   getPayments(){
-    var userLogged = JSON.parse(localStorage.getItem('userLogged'));
+    /* var userLogged = JSON.parse(localStorage.getItem('userLogged'));
     let request: Observable<any>;
     if(userLogged.role == USER_ROLE.ADMINISTRATOR){
       request = this.paymentService.getPaymentsByCondominium()
@@ -46,7 +46,7 @@ export class PaymentTableComponent implements OnInit {
       (error: any)=>{
         console.log('error', error);
       }
-    );
+    ); */
   }
 
   ngOnInit() {

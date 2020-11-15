@@ -1,0 +1,20 @@
+<form [formGroup]="condominiumFG" (ngSubmit)="onSubmit()">
+  <h1 mat-dialog-title>Crear condominio</h1>
+  <div mat-dialog-content>
+    <div class="example-container">
+      <mat-form-field>
+        <input matInput placeholder="Nombre" formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Descripción" formControlName="description">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Dirección" formControlName="address">
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="reset()" type="button">Limpiar</button>
+    <button mat-button cdkFocusInitial type="submit">Crear</button>
+  </div>
+</form>

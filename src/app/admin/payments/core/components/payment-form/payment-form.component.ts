@@ -50,14 +50,14 @@ export class PaymentFormComponent implements OnInit {
   }
 
   getBills(){
-    this.billService.getBills().subscribe(
+    /* this.billService.getBills().subscribe(
       (response) => {
         console.log('response', response);
       },
       (error) => {
         console.log('error', error)
       }
-    )
+    ) */
   }
 
   ngOnInit() {

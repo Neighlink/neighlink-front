@@ -1,0 +1,20 @@
+<header class="header" style="display: flex;align-items: center;justify-content: space-between;">
+  <div class="header_logo">
+      <div class="box_logo">
+          <img src="/assets/images/isotipo-white.png">
+          <span>Neighlink</span>
+      </div>
+  </div>
+  <div class="header_options" style="display: flex;align-items: center;">
+      <div class="header_options__buttons">
+          <a mat-raised-button [routerLink]="['/auth']">Inicia Sesión</a>
+          <a  mat-stroked-button [routerLink]="['/auth/signup']">¡Regístrate ahora!</a>
+      </div>
+  </div>
+</header>
+<section class="login-view">
+  <div class="login-view__content">
+      <h1 style="text-align: center;">Inserta el código</h1>
+      <code-form></code-form>
+  </div>
+</section>

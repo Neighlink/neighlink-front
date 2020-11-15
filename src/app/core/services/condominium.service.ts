@@ -8,6 +8,11 @@ export class CondominiumService {
   ) { }
 
   getCondominiums() {
-    return this.apiService.get('api/condominium/all');
+    const user = JSON.parse(localStorage.getItem('userLogged'));
+    return this.apiService.get(`8092/profiles/administrators/${user.id}/condominiums`);
+  }
+
+  createCondominium(request: any){
+    return this.apiService.post(`8092/profiles/condominiums`, request);
   }
 }
