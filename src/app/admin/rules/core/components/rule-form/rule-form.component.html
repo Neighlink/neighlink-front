@@ -1,0 +1,22 @@
+<h2 mat-dialog-title *ngIf="type == 'new'">Agregar norma</h2>
+<h2 mat-dialog-title *ngIf="type != 'new'">Editar norma</h2>
+<form [formGroup]="ruleFG" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="mat-typography">
+        <div class="example-container">
+            <mat-form-field>
+                <input id="rule-name" matInput placeholder="Nombre" formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <input id="rule-description" matInput placeholder="Descripción" formControlName="description">
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <a mat-button mat-dialog-close>Cancelar</a>
+        <button id="save-rule-btn" type="submit" [disabled]="ruleFG.invalid"
+            mat-button [mat-dialog-close]="true" cdkFocusInitial>
+            <span *ngIf="type == 'new'">Agregar</span>
+            <span *ngIf="type != 'new'">Editar</span>
+        </button>
+    </mat-dialog-actions>
+</form>

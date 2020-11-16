@@ -3,7 +3,7 @@ import { ApiService } from './api.service';
 import { Subject, Observable } from 'rxjs';
 
 @Injectable()
-export class BillService {
+export class RuleService {
   private subjectList = new Subject<any>();
   private subjectForm = new Subject<any>();
 
@@ -11,24 +11,24 @@ export class BillService {
     private apiService: ApiService
   ) { }
 
-  getBillsByCondominium() {
+  getRulesByCondominium() {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.get(`8094/infos/condominiums/${condominium.id}/paymentCategories`);
+    return this.apiService.get(`8092/profiles/condominiums/${condominium.id}/condominiumrules`);
   }
 
-  createBill(request: any) {
+  createRule(request: any) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.post(`8094/infos/condominiums/${condominium.id}/paymentCategories`, request);
+    return this.apiService.post(`8092/profiles/condominiums/${condominium.id}/condominiumrules`, request);
   }
 
-  updateBill(request: any) {
+  updateRule(request: any) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.put(`8094/infos/condominiums/${condominium.id}/paymentCategories/${request.id}`, request);
+    return this.apiService.put(`8092/profiles/condominiums/${condominium.id}/condominiumrules/${request.id}`, request);
   }
 
-  deleteBill(billId: any){
+  deleteRule(billId: any){
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.delete(`8094/infos/condominiums/${condominium.id}/paymentCategories/${billId}`)
+    return this.apiService.delete(`8092/profiles/condominiums/${condominium.id}/condominiumrules/${billId}`)
   }
 
   refreshList(status:boolean){

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardViewComponent } from './dashboard-view.component';
+import { RuleFormComponent } from './rule-form.component';
 
-describe('DashboardViewComponent', () => {
-  let component: DashboardViewComponent;
-  let fixture: ComponentFixture<DashboardViewComponent>;
+describe('RuleFormComponent', () => {
+  let component: RuleFormComponent;
+  let fixture: ComponentFixture<RuleFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardViewComponent ]
+      declarations: [ RuleFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardViewComponent);
+    fixture = TestBed.createComponent(RuleFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

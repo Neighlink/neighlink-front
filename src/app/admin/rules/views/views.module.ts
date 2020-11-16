@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { CoreModule } from '../core/core.module';
 import { ViewsRoutingModule } from './views-routing.module';
-import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
+import { RuleListViewComponent } from './rule-list-view/rule-list-view.component';
 
 @NgModule({
-  declarations: [DashboardViewComponent],
+  declarations: [
+    RuleListViewComponent,
+  ],
   imports: [
     CommonModule,
+    CoreModule,
     ViewsRoutingModule
   ]
 })
