@@ -1,0 +1,13 @@
+.dashboard-view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .item{
+    flex: 1;
+    padding-right: 30px;
+    &:last-child{
+      padding-right: 0;
+    }
+  }
+}

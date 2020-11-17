@@ -2,49 +2,48 @@ import { Injectable } from "@angular/core";
 import { Subject, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 
-
 @Injectable()
 export class NewsService {
-    private subjectList = new Subject<any>();
-    private subjectForm = new Subject<any>();
+  private subjectList = new Subject<any>();
+  private subjectForm = new Subject<any>();
 
-    constructor(
-        private apiService: ApiService
-    ) { }
+  constructor(
+    private apiService: ApiService
+  ) { }
 
-    createNews(request: any) {
-        return this.apiService.post('api/new', request);
-    }
+  getNewsByCondominium() {
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.get(`8093/interactions/condominiums/${condominium.id}/news`);
+  }
 
-    updateNews(request: any){
-        return this.apiService.put('api/new', request);        
-    }
+  createNew(request: any) {
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.post(`8093/interactions/condominiums/${condominium.id}/news`, request);
+  }
 
-    getNewById(newId:number){
-        return this.apiService.get(`api/new/byId/${newId}`);
-    }
-    getNewByCondominium(condominiumId?: number){
-        var userLogged = JSON.parse(localStorage.getItem('userLogged'));
-        var condoId = condominiumId ? condominiumId : userLogged.condominiumId;
-        return this.apiService.get('api/new/by-condominium/'+condoId);
-    }
+  updateNew(request: any) {
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.put(`8093/interactions/condominiums/${condominium.id}/news/${request.id}`, request);
+  }
 
-    refreshList(status:boolean){
-        this.subjectList.next({status});
-    }
+  deleteNew(id: any){
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.delete(`8093/interactions/condominiums/${condominium.id}/news/${id}`)
+  }
 
-    listenerRefreshList(): Observable<any>{
-        return this.subjectList.asObservable();
-    }
+  refreshList(status:boolean){
+    this.subjectList.next({status});
+  }
 
-    resetForm(){
-        this.subjectList.next(true);
-    }
+  listenerRefreshList(): Observable<any>{
+    return this.subjectList.asObservable();
+  }
 
-    listenerResetForm(): Observable<any>{
-        return this.subjectForm.asObservable();
-    }
+  resetForm(){
+    this.subjectForm.next(true);
+  }
 
-
-
+  listenerResetForm(): Observable<any>{
+    return this.subjectForm.asObservable();
+  }
 }

@@ -10,4 +10,4 @@ import { ViewsModule as DashboardViewsModule } from './views/views.module';
     DashboardViewsModule
   ]
 })
-export class RulesModule { }
+export class DashboardModule { }

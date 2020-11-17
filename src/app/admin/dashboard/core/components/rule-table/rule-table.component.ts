@@ -43,12 +43,12 @@ export class RuleTableComponent implements OnInit {
     this.getRules();
   }
 
-  openDialog(type: string, bill?): void {
+  openDialog(type: string, rule?): void {
     const dialogRef = this.dialog.open(RuleFormComponent, {
       width: '50%',
       data: {
         type,
-        bill
+        rule
       }
     });
 

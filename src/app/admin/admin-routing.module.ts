@@ -7,8 +7,8 @@ const routes: Routes = [
     path: '', component: AdminComponent,
     children: [
       {
-        path: 'rules',
-        loadChildren:() => import('src/app/admin/rules/rules.module').then(m => m.RulesModule)
+        path: '',
+        loadChildren:() => import('src/app/admin/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
         path: 'users',
