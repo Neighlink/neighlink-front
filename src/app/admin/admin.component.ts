@@ -79,7 +79,9 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(){
     this.reset();
-    this.getCondominiums();
+    const role = localStorage.getItem('role');
+    if (role == USER_ROLE.ADMINISTRATOR) this.getCondominiums();
+    else console.log('traer condominios por residente');
   }
 
   openCondominiumDialog(){

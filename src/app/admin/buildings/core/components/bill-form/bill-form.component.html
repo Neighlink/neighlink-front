@@ -1,0 +1,42 @@
+<h2 mat-dialog-title *ngIf="type == 'new'">Agregar pago</h2>
+<h2 mat-dialog-title *ngIf="type != 'new'">Editar pago</h2>
+<form [formGroup]="billFG" (ngSubmit)="onSubmit()" *ngIf="paymentCategories.length > 0">
+    <mat-dialog-content class="mat-typography">
+        <div class="example-container">
+            <mat-form-field>
+                <input id="bill-name" matInput placeholder="Nombre" formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <input id="bill-description" matInput placeholder="Descripción" formControlName="description">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Categoría" formControlName="paymentCategoryId">
+                    <mat-option *ngFor="let option of paymentCategories" [value]="option.id">{{option.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input id="bill-name" matInput placeholder="Monto" formControlName="amount">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de Inicio</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de Fin</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <a mat-button mat-dialog-close>Cancelar</a>
+        <button id="save-bill-btn" type="submit" [disabled]="billFG.invalid"
+            mat-button [mat-dialog-close]="true" cdkFocusInitial>
+            <span *ngIf="type == 'new'">Agregar</span>
+            <span *ngIf="type != 'new'">Editar</span>
+        </button>
+    </mat-dialog-actions>
+</form>

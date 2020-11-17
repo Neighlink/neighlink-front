@@ -42,9 +42,9 @@ export class LoginFormComponent implements OnInit {
         .subscribe(
           (response: any) => {
             let user = response.result.user;
-            user.id = response.result.id;
             localStorage.setItem('userLogged', JSON.stringify(user));
-            localStorage.setItem('token', response.result.user.token);
+            localStorage.setItem('token', response.result.user.user.token);
+            localStorage.setItem('role', response.result.userType);
 
             this._snackBar.open('¡Hola de nuevo!', '', {
               duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']

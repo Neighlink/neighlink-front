@@ -4,10 +4,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { BillFormComponent } from '../bill-form/bill-form.component';
 import { Bill } from '../../../../../core/models/bill.model';
-import { BillService } from 'src/app/core/services/bill.service';
+import { PaymentCategoryService } from 'src/app/core/services/payment-category.service';
 
 @Component({
-  selector: 'bill-table',
+  selector: 'payment-category-table',
   templateUrl: './bill-table.component.html',
   styleUrls: ['./bill-table.component.scss']
 })
@@ -19,16 +19,16 @@ export class BillTableComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private billService: BillService
+    private paymentCategoryService: PaymentCategoryService
   ) {
-    this.billService.listenerRefreshList()
+    this.paymentCategoryService.listenerRefreshList()
     .subscribe( status => {
       if(status) this.getBills();
     })
   }
 
   getBills(){
-    this.billService.getBillsByCondominium().subscribe(
+    this.paymentCategoryService.getPaymentCategoriesByCondominium().subscribe(
       (response: any) =>{
         this.dataSource = response.result;
         this.dataSource.paginator = this.paginator;
@@ -58,7 +58,7 @@ export class BillTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
-    this.billService.deleteBill(element.id).subscribe(
+    this.paymentCategoryService.deletePaymentCategory(element.id).subscribe(
       (response:any) => {
         this.getBills();
       },

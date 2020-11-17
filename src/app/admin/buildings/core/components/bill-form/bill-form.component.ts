@@ -1,34 +1,52 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { Observable } from 'rxjs';
+import { BillService } from 'src/app/core/services/bill.service';
 import { PaymentCategoryService } from 'src/app/core/services/payment-category.service';
 
 @Component({
-  selector: 'bill-form',
+  selector: 'app-bill-form',
   templateUrl: './bill-form.component.html',
   styleUrls: ['./bill-form.component.scss']
 })
 export class BillFormComponent implements OnInit {
+  public flatId: number;
   public type: string;
 
-
-  public billFG: FormGroup;
+  public paymentCategories: any[] = [];
   public billId: number;
+  public billFG: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private paymentCategory: PaymentCategoryService,
+    private billService: BillService,
+    private paymentCategoryService: PaymentCategoryService,
     public dialogRef: MatDialogRef<BillFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar
   ) {
     this.reset();
-
+    this.getPaymentCategories();
     if(this.data){
       this.type = this.data.type;
-      if(this.data.bill) this.billFG.patchValue(this.data.bill);
+      this.flatId = Number(this.data.flatId);
+      if(this.data.flat){
+        this.data.flat.paymentCategoryId = this.data.flat.category.id;
+        this.billFG.patchValue(this.data.flat);
+      }
     }
+  }
+
+  getPaymentCategories(){
+    this.paymentCategoryService.getPaymentCategoriesByCondominium().subscribe(
+      (response: any) =>{
+        this.paymentCategories = response.result;
+      },
+      (error: any) =>{
+        console.log('error getPaymentCategories', error);
+      }
+    )
   }
 
   reset(){
@@ -37,6 +55,10 @@ export class BillFormComponent implements OnInit {
       id: [],
       name: ['',[Validators.required]],
       description: ['',[Validators.required]],
+      paymentCategoryId: [null,[Validators.required]],
+      amount: ['',[Validators.required]],
+      startDate: ['',[Validators.required]],
+      endDate: ['',[Validators.required]],
     });
   }
 
@@ -49,9 +71,9 @@ export class BillFormComponent implements OnInit {
       let request: Observable<any>;
 
       if(!bill.id){
-        request = this.paymentCategory.createPaymentCategory(bill)
+        request = this.billService.createBill(bill, this.flatId)
       } else {
-        request = this.paymentCategory.updatePaymentCategory(bill)
+        request = this.billService.updateBill(bill, this.flatId)
       }
 
       request.subscribe(
@@ -59,7 +81,7 @@ export class BillFormComponent implements OnInit {
           this._snackBar.open('Operación exitosa ✔️', '', {
             duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
           });
-          this.paymentCategory.refreshList(true);
+          this.billService.refreshList(true);
         },
         (error: any)=>{
           console.log('error', error);

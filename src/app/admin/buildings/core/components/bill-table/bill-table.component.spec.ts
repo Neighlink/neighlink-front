@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditFlatViewComponent } from './edit-flat-view.component';
+import { BillTableComponent } from './bill-table.component';
 
-describe('EditFlatViewComponent', () => {
-  let component: EditFlatViewComponent;
-  let fixture: ComponentFixture<EditFlatViewComponent>;
+describe('BillTableComponent', () => {
+  let component: BillTableComponent;
+  let fixture: ComponentFixture<BillTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditFlatViewComponent ]
+      declarations: [ BillTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditFlatViewComponent);
+    fixture = TestBed.createComponent(BillTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,7 +15,7 @@ const routes: Routes = [
         loadChildren:() => import('src/app/admin/users/users.module').then(m => m.UsersModule)
       },
       {
-        path: 'bills',
+        path: 'categories',
         loadChildren:() => import('src/app/admin/bills/bills.module').then(m => m.BillsModule)
       },
       {

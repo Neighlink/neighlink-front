@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BuildingListViewComponent } from './building-list-view/building-list-view.component';
 import { EditBuildingViewComponent } from './edit-building-view/edit-building-view.component';
-import { EditFlatViewComponent } from './edit-flat-view/edit-flat-view.component';
+import { FlatDetailViewComponent } from './flat-detail-view/flat-detail-view.component';
 import { FlatListViewComponent } from './flat-list-view/flat-list-view.component';
 
 const routes: Routes = [
@@ -11,17 +11,17 @@ const routes: Routes = [
     component: BuildingListViewComponent
   },
   {
-    path: 'edit/:id',
+    path: ':id/edit',
     component: EditBuildingViewComponent
   },
   {
-    path: 'flats/:id',
+    path: ':id/flats',
     component: FlatListViewComponent
   },
   {
-    path: 'flats/:id/edit/:flatId',
-    component: EditFlatViewComponent
-  }
+    path: ':id/flats/:flatId/detail',
+    component: FlatDetailViewComponent
+  },
 ];
 
 @NgModule({

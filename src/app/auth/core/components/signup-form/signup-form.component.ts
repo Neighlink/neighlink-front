@@ -24,6 +24,7 @@ export class SignupFormComponent implements OnInit {
   reset(){
     this.loading = false;
     this.signupFG = this.fb.group({
+      role: ['',[Validators.required]],
       birthDate: ['',[Validators.required]],
       email: ['',[Validators.email]],
       gender: ['',[Validators.required]],
@@ -42,8 +43,6 @@ export class SignupFormComponent implements OnInit {
     if(this.signupFG.valid){
       this.loading = true;
       const signupRequest = Object.assign({},this.signupFG.value);
-      signupRequest.role = USER_ROLE.OWNER;
-
       this.authService.signup(signupRequest)
         .subscribe(
           (response: any) => {

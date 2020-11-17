@@ -1,32 +1,28 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
-import { PaymentCategoryService } from 'src/app/core/services/payment-category.service';
+import { BillService } from 'src/app/core/services/bill.service';
 
 @Component({
-  selector: 'bill-form',
-  templateUrl: './bill-form.component.html',
-  styleUrls: ['./bill-form.component.scss']
+  selector: 'app-pay-dialog',
+  templateUrl: './pay-dialog.component.html',
+  styleUrls: ['./pay-dialog.component.scss']
 })
-export class BillFormComponent implements OnInit {
-  public type: string;
-
-
-  public billFG: FormGroup;
+export class PayDialogComponent implements OnInit {
+  public flatId: number;
   public billId: number;
+  public billFG: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private paymentCategory: PaymentCategoryService,
-    public dialogRef: MatDialogRef<BillFormComponent>,
+    private billService: BillService,
+    public dialogRef: MatDialogRef<PayDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar
   ) {
     this.reset();
-
     if(this.data){
-      this.type = this.data.type;
+      this.flatId = Number(this.data.flatId);
       if(this.data.bill) this.billFG.patchValue(this.data.bill);
     }
   }
@@ -35,8 +31,8 @@ export class BillFormComponent implements OnInit {
     this.billId = null;
     this.billFG = this.fb.group({
       id: [],
-      name: ['',[Validators.required]],
-      description: ['',[Validators.required]],
+      amount: ['',[Validators.required]],
+      paymentDate: ['',[Validators.required]],
     });
   }
 
@@ -46,20 +42,13 @@ export class BillFormComponent implements OnInit {
   onSubmit(){
     if(this.billFG.valid){
       let bill: any = Object.assign({},this.billFG.value);
-      let request: Observable<any>;
 
-      if(!bill.id){
-        request = this.paymentCategory.createPaymentCategory(bill)
-      } else {
-        request = this.paymentCategory.updatePaymentCategory(bill)
-      }
-
-      request.subscribe(
+      this.billService.savePay(bill, this.flatId).subscribe(
         (response: any)=>{
           this._snackBar.open('Operación exitosa ✔️', '', {
             duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['color-snackbar']
           });
-          this.paymentCategory.refreshList(true);
+          this.billService.refreshList(true);
         },
         (error: any)=>{
           console.log('error', error);
@@ -69,4 +58,5 @@ export class BillFormComponent implements OnInit {
       console.log('invalid form', this.billFG.value);
     }
   }
+
 }

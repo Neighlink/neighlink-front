@@ -13,22 +13,46 @@ export class BillService {
 
   getBillsByCondominium() {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.get(`8094/infos/condominiums/${condominium.id}/paymentCategories`);
+    return this.apiService.get(`8094/infos/condominiums/${condominium.id}/bills`);
   }
 
-  createBill(request: any) {
+  getBillsByFlat(flatId) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.post(`8094/infos/condominiums/${condominium.id}/paymentCategories`, request);
+    return this.apiService.get(`8094/infos/condominiums/${condominium.id}/departments/${flatId}/bills`);
   }
 
-  updateBill(request: any) {
+  createBill(request: any, flatId) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.put(`8094/infos/condominiums/${condominium.id}/paymentCategories/${request.id}`, request);
+    return this.apiService.post(`8094/infos/condominiums/${condominium.id}/departments/${flatId}/bills`, request);
   }
 
-  deleteBill(billId: any){
+  updateBill(request: any, flatId) {
     var condominium = JSON.parse(localStorage.getItem('condominium'));
-    return this.apiService.delete(`8094/infos/condominiums/${condominium.id}/paymentCategories/${billId}`)
+    return this.apiService.put(`8094/infos/condominiums/${condominium.id}/departments/${flatId}/bills/${request.id}`, request);
+  }
+
+  deleteBill(element: any){
+    var condominium = JSON.parse(localStorage.getItem('condominium'));
+    return this.apiService.delete(`8094/infos/condominiums/${condominium.id}/departments/${element.departmentId}/bills/${element.id}`)
+  }
+
+  savePay(e: any, flatId) {
+    e.confirmPaid = true;
+    e.urlImage = 'url';
+    e.residentId = 3;
+    return this.apiService.post(`8094/infos/departments/${flatId}/bills/${e.id}/pays`, e);
+  }
+
+  getPay(e: any) {
+    return this.apiService.get(`8094/infos/departments/${e.departmentId}/bills/${e.billId}/pays`);
+  }
+
+  acceptPay(e: any){
+    return this.apiService.put(`8094/infos/departments/${e.departmentId}/bills/${e.billId}/pays/${e.payId}/accept`)
+  }
+
+  dennyPay(e: any){
+    return this.apiService.put(`8094/infos/departments/${e.departmentId}/bills/${e.billId}/pays/${e.payId}/denny`)
   }
 
   refreshList(status:boolean){

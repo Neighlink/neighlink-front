@@ -1,6 +1,12 @@
 <form [formGroup]="signupFG" (ngSubmit)="onSignup()">
     <div class="example-container">
         <mat-form-field>
+            <mat-select placeholder="Rol" formControlName="role">
+                <mat-option value="ADMINISTRADOR">Administrador</mat-option>
+                <mat-option value="RESIDENTE">Residente</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
             <input id="signup-name" matInput placeholder="Nombres" formControlName="name">
         </mat-form-field>
         <mat-form-field>

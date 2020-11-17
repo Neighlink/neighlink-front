@@ -15,8 +15,8 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <a mat-menu-item [routerLink]="['flats', element.id]">Departamentos</a>
-                <a mat-menu-item [routerLink]="['edit', element.id]">Editar</a>
+                <a mat-menu-item [routerLink]="element.id+'/flats'">Departamentos</a>
+                <a mat-menu-item [routerLink]="element.id+'/edit'">Editar</a>
                 <a mat-menu-item (click)="deleteElement(element)">Eliminar</a>
             </mat-menu>
         </td>

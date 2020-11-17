@@ -82,5 +82,4 @@ export class FlatFormComponent implements OnInit {
       console.log('invalid form', this.flatFG.value);
     }
   }
-
 }

@@ -7,6 +7,7 @@ import { Payment } from '../../../../../core/models/payment.model';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { Observable } from 'rxjs';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
+import { BillService } from 'src/app/core/services/bill.service';
 
 @Component({
   selector: 'payment-table',
@@ -14,14 +15,15 @@ import { USER_ROLE } from 'src/app/core/constants/global.constants';
   styleUrls: ['./payment-table.component.scss']
 })
 export class PaymentTableComponent implements OnInit {
-  displayedColumns: string[] = ['billId', 'userId', 'amount', 'paymentDate', 'hasPaid', 'options'];
+  displayedColumns: string[] = ['flat' ,'name', 'amount', 'category', 'startDate', 'endDate', 'hasPaid', 'options'];
   dataSource = new MatTableDataSource<Payment>();
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
-    private paymentService: PaymentService
+    private billService: BillService,
+    private paymentService: PaymentService,
   ) {
     this.paymentService.listenerRefreshList()
     .subscribe( status => {
@@ -30,23 +32,23 @@ export class PaymentTableComponent implements OnInit {
   }
 
   getPayments(){
-    /* var userLogged = JSON.parse(localStorage.getItem('userLogged'));
+    var userRole = localStorage.getItem('role');
     let request: Observable<any>;
-    if(userLogged.role == USER_ROLE.ADMINISTRATOR){
-      request = this.paymentService.getPaymentsByCondominium()
+    if(userRole == USER_ROLE.ADMINISTRATOR){
+      request = this.billService.getBillsByCondominium()
     } else {
       request = this.paymentService.getPaymentsByUser()
     }
 
     request.subscribe(
       (response: any)=>{
-        this.dataSource = response;
+        this.dataSource = response.result;
         this.dataSource.paginator = this.paginator;
       },
       (error: any)=>{
         console.log('error', error);
       }
-    ); */
+    );
   }
 
   ngOnInit() {
