@@ -4,16 +4,16 @@
     <mat-dialog-content class="mat-typography">
         <div class="example-container">
             <mat-form-field>
-                <input id="rule-name" matInput placeholder="Título" formControlName="title">
+                <input id="news-name" matInput placeholder="Título" formControlName="title">
             </mat-form-field>
             <mat-form-field>
-                <input id="rule-description" matInput placeholder="Descripción" formControlName="description">
+                <input id="news-description" matInput placeholder="Descripción" formControlName="description">
             </mat-form-field>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <a mat-button mat-dialog-close>Cancelar</a>
-        <button id="save-rule-btn" type="submit" [disabled]="ruleFG.invalid"
+        <button id="save-news-btn" type="submit" [disabled]="ruleFG.invalid"
             mat-button [mat-dialog-close]="true" cdkFocusInitial>
             <span *ngIf="type == 'new'">Agregar</span>
             <span *ngIf="type != 'new'">Editar</span>

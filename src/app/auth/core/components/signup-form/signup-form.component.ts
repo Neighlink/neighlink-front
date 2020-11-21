@@ -24,7 +24,7 @@ export class SignupFormComponent implements OnInit {
   reset(){
     this.loading = false;
     this.signupFG = this.fb.group({
-      role: ['',[Validators.required]],
+      role: [''],
       birthDate: ['',[Validators.required]],
       email: ['',[Validators.email]],
       gender: ['',[Validators.required]],

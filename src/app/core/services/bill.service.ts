@@ -39,7 +39,7 @@ export class BillService {
   savePay(e: any, flatId) {
     e.confirmPaid = true;
     e.urlImage = 'url';
-    e.residentId = 3;
+    e.residentId = 6;
     return this.apiService.post(`8094/infos/departments/${flatId}/bills/${e.id}/pays`, e);
   }
 

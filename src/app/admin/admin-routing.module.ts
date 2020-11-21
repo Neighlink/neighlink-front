@@ -7,7 +7,10 @@ const routes: Routes = [
     path: '', component: AdminComponent,
     children: [
       {
-        path: '',
+        path: '', redirectTo: 'dashboard', pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
         loadChildren:() => import('src/app/admin/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
