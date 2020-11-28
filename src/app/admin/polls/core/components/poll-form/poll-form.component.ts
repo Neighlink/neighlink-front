@@ -4,6 +4,7 @@ import { PollService } from 'src/app/core/services/poll.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Poll } from 'src/app/core/models/poll.model';
 import { Observable } from 'rxjs';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'poll-form',
@@ -14,8 +15,11 @@ export class PollFormComponent implements OnInit {
   public pollFG: FormGroup;
   public pollId: number;
 
-  constructor(private fb: FormBuilder, private pollService: PollService,
-    private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private fb: FormBuilder, private pollService: PollService,
+    private router: Router, private route: ActivatedRoute,
+    private analytics: GoogleAnalyticsService,
+  ) { }
 
   reset(){
     this.pollFG = this.fb.group({
@@ -53,11 +57,15 @@ export class PollFormComponent implements OnInit {
       let poll: Poll = Object.assign({},this.pollFG.value);
       let request: Observable<any>;
 
+      this.analytics.values.eventCategory = 'poll';
       if(!poll.id){
+        this.analytics.values.eventAction = 'create';
         request = this.pollService.createPoll(poll)
       } else {
+        this.analytics.values.eventAction = 'update';
         request = this.pollService.updatePoll(poll)
       }
+      this.analytics.sendToGoogleAnalytics();
 
       request.subscribe(
         (response: any)=>{

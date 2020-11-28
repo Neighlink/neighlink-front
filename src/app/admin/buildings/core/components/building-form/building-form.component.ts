@@ -5,6 +5,7 @@ import { BuildingService } from 'src/app/core/services/building.service';
 import { Building } from 'src/app/core/models/building.model';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'building-form',
@@ -20,7 +21,8 @@ export class BuildingFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private buildingService: BuildingService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ) { }
 
   reset(){
@@ -56,11 +58,15 @@ export class BuildingFormComponent implements OnInit {
       let building: Building = Object.assign({},this.buildingFG.value);
       let request: Observable<any>;
 
+      this.analytics.values.eventCategory = 'building';
       if(!building.id){
+        this.analytics.values.eventAction = 'create';
         request = this.buildingService.createBuilding(building)
       } else {
+        this.analytics.values.eventAction = 'update';
         request = this.buildingService.updateBuilding(building)
       }
+      this.analytics.sendToGoogleAnalytics();
 
       request.subscribe(
         (response: any)=>{

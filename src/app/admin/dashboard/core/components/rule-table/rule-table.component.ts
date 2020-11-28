@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RuleFormComponent } from '../rule-form/rule-form.component';
 import { Bill } from '../../../../../core/models/bill.model';
 import { RuleService } from 'src/app/core/services/rule.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'rule-table',
@@ -19,7 +20,8 @@ export class RuleTableComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private ruleService: RuleService
+    private ruleService: RuleService,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.ruleService.listenerRefreshList()
     .subscribe( status => {
@@ -58,6 +60,9 @@ export class RuleTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
+    this.analytics.values.eventCategory = 'rules';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     this.ruleService.deleteRule(element.id).subscribe(
       (response:any) => {
         this.getRules();

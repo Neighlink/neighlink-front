@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CondominiumService } from 'src/app/core/services/condominium.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'app-condominium-dialog',
@@ -16,7 +17,8 @@ export class CondominiumDialogComponent implements OnInit {
     private condominiumService: CondominiumService,
     public fb: FormBuilder,
     public dialogRef: MatDialogRef<CondominiumDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private analytics: GoogleAnalyticsService,
   ) {
   }
 
@@ -29,9 +31,12 @@ export class CondominiumDialogComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log('on submit');
     if(this.condominiumFG.valid){
       let condominium: any = Object.assign({},this.condominiumFG.value);
+
+      this.analytics.values.eventCategory = 'condominium';
+      this.analytics.values.eventAction = 'create';
+      this.analytics.sendToGoogleAnalytics();
 
       this.condominiumService.createCondominium(condominium).subscribe(
         (response: any)=>{

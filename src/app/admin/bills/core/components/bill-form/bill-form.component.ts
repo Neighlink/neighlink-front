@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { PaymentCategoryService } from 'src/app/core/services/payment-category.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'bill-form',
@@ -21,7 +22,8 @@ export class BillFormComponent implements OnInit {
     private paymentCategory: PaymentCategoryService,
     public dialogRef: MatDialogRef<BillFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.reset();
 
@@ -48,11 +50,16 @@ export class BillFormComponent implements OnInit {
       let bill: any = Object.assign({},this.billFG.value);
       let request: Observable<any>;
 
+      this.analytics.values.eventCategory = 'category';
       if(!bill.id){
+        this.analytics.values.eventAction = 'create';
         request = this.paymentCategory.createPaymentCategory(bill)
       } else {
+        this.analytics.values.eventAction = 'update';
         request = this.paymentCategory.updatePaymentCategory(bill)
       }
+      this.analytics.sendToGoogleAnalytics();
+
 
       request.subscribe(
         (response: any)=>{

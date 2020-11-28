@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
 import { MatSnackBar } from '@angular/material';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'login-form',
@@ -18,7 +19,8 @@ export class LoginFormComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ){ }
 
   reset(){
@@ -36,8 +38,12 @@ export class LoginFormComponent implements OnInit {
   onLogin(){
     if(this.loginFG.valid){
       this.loading = true;
-      const loginRequest = Object.assign({},this.loginFG.value);
 
+      this.analytics.values.eventCategory = 'auth';
+      this.analytics.values.eventAction = 'login';
+      this.analytics.sendToGoogleAnalytics();
+
+      const loginRequest = Object.assign({},this.loginFG.value);
       this.authService.login(loginRequest)
         .subscribe(
           (response: any) => {

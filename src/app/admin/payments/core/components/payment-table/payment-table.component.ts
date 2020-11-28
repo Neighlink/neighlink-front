@@ -8,6 +8,7 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 import { Observable } from 'rxjs';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
 import { BillService } from 'src/app/core/services/bill.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'payment-table',
@@ -24,6 +25,7 @@ export class PaymentTableComponent implements OnInit {
     public dialog: MatDialog,
     private billService: BillService,
     private paymentService: PaymentService,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.paymentService.listenerRefreshList()
     .subscribe( status => {

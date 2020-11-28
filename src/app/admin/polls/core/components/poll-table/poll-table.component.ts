@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { PollFormComponent } from '../poll-form/poll-form.component';
 import { Poll } from '../../../../../core/models/poll.model';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 const ELEMENT_DATA: Poll[] = [
   {id: 1,  title: 'Propietariop', numberOfVotes: 2,status: true, startDate: '10/10/2019/', endDate: '15/10/2019', description: 'Hydrogen'},
@@ -39,7 +40,10 @@ export class PollTableComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private analytics: GoogleAnalyticsService,
+  ) {}
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -60,6 +64,9 @@ export class PollTableComponent implements OnInit {
   }
 
   delete(id){
+    this.analytics.values.eventCategory = 'poll';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     console.log('id', id);
   }
 }

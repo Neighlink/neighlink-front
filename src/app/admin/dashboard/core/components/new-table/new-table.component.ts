@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 import { NewsService } from 'src/app/core/services/news.service';
 import { NewFormComponent } from '../new-form/new-form.component';
 
@@ -16,7 +17,8 @@ export class NewTableComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private newService: NewsService
+    private newService: NewsService,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.newService.listenerRefreshList()
     .subscribe( status => {
@@ -55,6 +57,9 @@ export class NewTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
+    this.analytics.values.eventCategory = 'news';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     this.newService.deleteNew(element.id).subscribe(
       (response:any) => {
         this.getNews();

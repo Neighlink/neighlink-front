@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { USER_ROLE } from 'src/app/core/constants/global.constants';
 import { MatSnackBar } from '@angular/material';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'signup-form',
@@ -19,6 +20,7 @@ export class SignupFormComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ) { }
 
   reset(){
@@ -42,6 +44,11 @@ export class SignupFormComponent implements OnInit {
   onSignup(){
     if(this.signupFG.valid){
       this.loading = true;
+
+      this.analytics.values.eventCategory = 'auth';
+      this.analytics.values.eventAction = 'signup';
+      this.analytics.sendToGoogleAnalytics();
+
       const signupRequest = Object.assign({},this.signupFG.value);
       this.authService.signup(signupRequest)
         .subscribe(

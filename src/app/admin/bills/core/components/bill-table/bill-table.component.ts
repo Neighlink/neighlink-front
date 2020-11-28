@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BillFormComponent } from '../bill-form/bill-form.component';
 import { Bill } from '../../../../../core/models/bill.model';
 import { PaymentCategoryService } from 'src/app/core/services/payment-category.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'payment-category-table',
@@ -19,7 +20,8 @@ export class BillTableComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private paymentCategoryService: PaymentCategoryService
+    private paymentCategoryService: PaymentCategoryService,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.paymentCategoryService.listenerRefreshList()
     .subscribe( status => {
@@ -58,6 +60,9 @@ export class BillTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
+    this.analytics.values.eventCategory = 'category';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     this.paymentCategoryService.deletePaymentCategory(element.id).subscribe(
       (response:any) => {
         this.getBills();

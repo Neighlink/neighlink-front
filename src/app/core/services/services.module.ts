@@ -12,6 +12,7 @@ import { PaymentCategoryService } from './payment-category.service';
 import { FlatService } from './flat.service';
 import { RuleService } from './rule.service';
 import { NewsService } from './news.service';
+import { GoogleAnalyticsService } from './google-analytics.service';
 
 @NgModule({
   declarations: [],
@@ -31,6 +32,7 @@ import { NewsService } from './news.service';
     FlatService,
     RuleService,
     NewsService,
+    GoogleAnalyticsService,
   ]
 })
 export class ServicesModule { }

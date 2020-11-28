@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { BillService } from 'src/app/core/services/bill.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'app-pay-dialog',
@@ -18,7 +19,8 @@ export class PayDialogComponent implements OnInit {
     private billService: BillService,
     public dialogRef: MatDialogRef<PayDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.reset();
     if(this.data){
@@ -42,6 +44,10 @@ export class PayDialogComponent implements OnInit {
   onSubmit(){
     if(this.billFG.valid){
       let bill: any = Object.assign({},this.billFG.value);
+
+      this.analytics.values.eventCategory = 'pay';
+      this.analytics.values.eventAction = 'save_pay';
+      this.analytics.sendToGoogleAnalytics();
 
       this.billService.savePay(bill, this.flatId).subscribe(
         (response: any)=>{

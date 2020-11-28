@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { BillFormComponent } from 'src/app/admin/buildings/core/components/bill-form/bill-form.component';
 import { Bill } from 'src/app/core/models/bill.model';
 import { BillService } from 'src/app/core/services/bill.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 import { PayDialogComponent } from 'src/app/shared/components/pay-dialog/pay-dialog.component';
 
 @Component({
@@ -23,6 +24,7 @@ export class BillTableComponent implements OnInit {
     public dialog: MatDialog,
     private billService: BillService,
     private route: ActivatedRoute,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.billService.listenerRefreshList()
     .subscribe( status => {
@@ -81,6 +83,9 @@ export class BillTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
+    this.analytics.values.eventCategory = 'bill';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     this.billService.deleteBill(element).subscribe(
       (response:any) => {
         this.getBills();

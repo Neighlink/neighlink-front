@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'code-form',
@@ -13,7 +14,8 @@ export class CodeFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private analytics: GoogleAnalyticsService,
   ){ }
 
   reset(){
@@ -29,6 +31,9 @@ export class CodeFormComponent implements OnInit {
 
   onCode(){
     this.router.navigateByUrl('/');
+    this.analytics.values.eventCategory = 'auth';
+    this.analytics.values.eventAction = 'code';
+    this.analytics.sendToGoogleAnalytics();
     /* if(this.loginFG.valid){
       this.loading = true;
       const loginRequest = Object.assign({},this.loginFG.value);

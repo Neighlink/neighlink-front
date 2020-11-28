@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FlatFormComponent } from '../flat-form/flat-form.component';
 import { FlatService } from 'src/app/core/services/flat.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'flat-table',
@@ -24,6 +25,7 @@ export class FlatTableComponent implements OnInit {
     public dialog: MatDialog,
     private flatService: FlatService,
     private route: ActivatedRoute,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.flatService.listenerRefreshList()
     .subscribe( status => {
@@ -68,6 +70,9 @@ export class FlatTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
+    this.analytics.values.eventCategory = 'flat';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     this.flatService.deleteFlat(element).subscribe(
       (response: any) => {
         this.getFlats();

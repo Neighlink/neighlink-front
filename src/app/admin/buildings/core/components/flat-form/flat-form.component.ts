@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FlatService } from 'src/app/core/services/flat.service';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'flat-form',
@@ -21,7 +22,8 @@ export class FlatFormComponent implements OnInit {
     private flatService: FlatService,
     public dialogRef: MatDialogRef<FlatFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.reset();
     if(this.data){
@@ -61,11 +63,15 @@ export class FlatFormComponent implements OnInit {
       let flat: any = Object.assign({},this.flatFG.value);
       let request: Observable<any>;
 
+      this.analytics.values.eventCategory = 'flat';
       if(!flat.id){
+        this.analytics.values.eventAction = 'create';
         request = this.flatService.createFlat(flat, this.buildingId)
       } else {
+        this.analytics.values.eventAction = 'update';
         request = this.flatService.updateFlat(flat)
       }
+      this.analytics.sendToGoogleAnalytics();
 
       request.subscribe(
         (response: any)=>{

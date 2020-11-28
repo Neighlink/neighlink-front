@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { BuildingFormComponent } from '../building-form/building-form.component';
 import { BuildingService } from 'src/app/core/services/building.service';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 @Component({
   selector: 'building-table',
@@ -19,7 +20,8 @@ export class BuildingTableComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.buildingService.listenerRefreshList()
     .subscribe( status => {
@@ -60,6 +62,9 @@ export class BuildingTableComponent implements OnInit {
   }
 
   deleteElement(element: any){
+    this.analytics.values.eventCategory = 'building';
+    this.analytics.values.eventAction = 'delete';
+    this.analytics.sendToGoogleAnalytics();
     this.buildingService.deleteBuilding(element).subscribe(
       (response: any) => {
         this.getBuildings();

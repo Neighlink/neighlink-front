@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NewsService } from 'src/app/core/services/news.service';
 import { Observable } from 'rxjs';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { GoogleAnalyticsService } from 'src/app/core/services/google-analytics.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class NewFormComponent implements OnInit {
     private newService: NewsService,
     public dialogRef: MatDialogRef<NewFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private analytics: GoogleAnalyticsService,
   ) {
     this.reset();
 
@@ -48,11 +50,15 @@ export class NewFormComponent implements OnInit {
       let rule: any = Object.assign({},this.ruleFG.value);
       let request: Observable<any>;
 
+      this.analytics.values.eventCategory = 'news';
       if(!rule.id){
+        this.analytics.values.eventAction = 'create';
         request = this.newService.createNew(rule)
       } else {
+        this.analytics.values.eventAction = 'update';
         request = this.newService.updateNew(rule)
       }
+      this.analytics.sendToGoogleAnalytics();
 
       request.subscribe(
         (response: any)=>{
